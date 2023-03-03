@@ -1,4 +1,5 @@
-﻿using EmployeeManagment.Api.Model;
+﻿using EmployeeManagement.Models;
+using EmployeeManagment.Api.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagment.Api.Controllers
@@ -24,6 +25,24 @@ namespace EmployeeManagment.Api.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError , "Error Get Employees");
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        {
+            try
+            {
+                 var result = await _employeeRepository.GetEmployee(id);
+                if(result == null)
+                {
+                    return NotFound();
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error Get Employees");
             }
         }
     }
